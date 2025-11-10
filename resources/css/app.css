@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -9,8 +9,9 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
 }
 
 @theme inline {
@@ -121,10 +122,93 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
+}
+
+/* Add this to resources/css/app.css */
+
+/* Trix Editor Styling */
+trix-editor {
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) - 2px);
+    padding: 0.75rem;
+    min-height: 200px;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+}
+
+trix-editor:focus {
+    outline: none;
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.5);
+}
+
+trix-toolbar {
+    background: hsl(var(--muted));
+    border: 1px solid hsl(var(--border));
+    border-bottom: none;
+    border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0;
+}
+
+trix-toolbar .trix-button-group {
+    background: transparent;
+    border: none;
+}
+
+trix-toolbar .trix-button {
+    background: transparent;
+    border: 1px solid transparent;
+    color: hsl(var(--foreground));
+    border-radius: calc(var(--radius) - 4px);
+    transition: all 0.2s;
+}
+
+trix-toolbar .trix-button:hover {
+    background: hsl(var(--accent));
+}
+
+trix-toolbar .trix-button.trix-active {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+/* Dark mode adjustments */
+.dark trix-toolbar {
+    background: hsl(var(--muted) / 0.5);
+}
+
+.dark trix-editor {
+    background: hsl(var(--input) / 0.3);
+}
+
+/* Trix content styling */
+.trix-content h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.trix-content ul,
+.trix-content ol {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.trix-content a {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+}
+
+.trix-content strong {
+    font-weight: bold;
+}
+
+.trix-content em {
+    font-style: italic;
 }
