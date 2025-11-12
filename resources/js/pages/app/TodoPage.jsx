@@ -7,7 +7,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
     Plus,
     Search,
-    Filter,
     CheckCircle2,
     Circle,
     Edit,
@@ -26,7 +25,7 @@ export default function TodoPage() {
     const [search, setSearch] = useState(filters?.search || "");
     const [filter, setFilter] = useState(filters?.filter || "all");
 
-    // Show success/error alerts
+    // Alert feedback
     useEffect(() => {
         if (flash?.success) {
             Swal.fire({
@@ -83,9 +82,7 @@ export default function TodoPage() {
             cancelButtonText: "Batal",
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(`/todos/${todo.id}`, {
-                    preserveScroll: true,
-                });
+                router.delete(`/todos/${todo.id}`, { preserveScroll: true });
             }
         });
     };
@@ -101,24 +98,16 @@ export default function TodoPage() {
 
     // Chart configuration
     const chartOptions = {
-        chart: {
-            type: "donut",
-        },
+        chart: { type: "donut" },
         labels: ["Selesai", "Belum Selesai"],
         colors: ["#10b981", "#f59e0b"],
-        legend: {
-            position: "bottom",
-        },
+        legend: { position: "bottom" },
         responsive: [
             {
                 breakpoint: 480,
                 options: {
-                    chart: {
-                        width: 200,
-                    },
-                    legend: {
-                        position: "bottom",
-                    },
+                    chart: { width: 200 },
+                    legend: { position: "bottom" },
                 },
             },
         ],
@@ -149,39 +138,33 @@ export default function TodoPage() {
                     {/* Statistics */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                         <Card>
-                            <CardContent className="pt-6">
-                                <div className="text-center">
-                                    <p className="text-sm text-muted-foreground">
-                                        Total
-                                    </p>
-                                    <p className="text-3xl font-bold">
-                                        {stats?.total || 0}
-                                    </p>
-                                </div>
+                            <CardContent className="pt-6 text-center">
+                                <p className="text-sm text-muted-foreground">
+                                    Total
+                                </p>
+                                <p className="text-3xl font-bold">
+                                    {stats?.total || 0}
+                                </p>
                             </CardContent>
                         </Card>
                         <Card>
-                            <CardContent className="pt-6">
-                                <div className="text-center">
-                                    <p className="text-sm text-muted-foreground">
-                                        Selesai
-                                    </p>
-                                    <p className="text-3xl font-bold text-green-600">
-                                        {stats?.finished || 0}
-                                    </p>
-                                </div>
+                            <CardContent className="pt-6 text-center">
+                                <p className="text-sm text-muted-foreground">
+                                    Selesai
+                                </p>
+                                <p className="text-3xl font-bold text-green-600">
+                                    {stats?.finished || 0}
+                                </p>
                             </CardContent>
                         </Card>
                         <Card>
-                            <CardContent className="pt-6">
-                                <div className="text-center">
-                                    <p className="text-sm text-muted-foreground">
-                                        Belum Selesai
-                                    </p>
-                                    <p className="text-3xl font-bold text-amber-600">
-                                        {stats?.unfinished || 0}
-                                    </p>
-                                </div>
+                            <CardContent className="pt-6 text-center">
+                                <p className="text-sm text-muted-foreground">
+                                    Belum Selesai
+                                </p>
+                                <p className="text-3xl font-bold text-amber-600">
+                                    {stats?.unfinished || 0}
+                                </p>
                             </CardContent>
                         </Card>
                         <Card>
@@ -202,7 +185,7 @@ export default function TodoPage() {
                         </Card>
                     </div>
 
-                    {/* Search and Filter */}
+                    {/* Search & Filter */}
                     <Card className="mb-6">
                         <CardContent className="pt-6">
                             <div className="flex flex-col md:flex-row gap-4">
@@ -269,16 +252,14 @@ export default function TodoPage() {
                     {/* Todo List */}
                     {todos.data.length === 0 ? (
                         <Card>
-                            <CardContent className="py-12">
-                                <div className="text-center text-muted-foreground">
-                                    <p className="text-lg">
-                                        Belum ada todo yang tersedia
-                                    </p>
-                                    <p className="text-sm mt-2">
-                                        Klik tombol "Tambah Todo" untuk membuat
-                                        aktivitas baru
-                                    </p>
-                                </div>
+                            <CardContent className="py-12 text-center text-muted-foreground">
+                                <p className="text-lg">
+                                    Belum ada todo yang tersedia
+                                </p>
+                                <p className="text-sm mt-2">
+                                    Klik tombol "Tambah Todo" untuk membuat
+                                    aktivitas baru
+                                </p>
                             </CardContent>
                         </Card>
                     ) : (
@@ -297,29 +278,105 @@ export default function TodoPage() {
 
                             {/* Pagination */}
                             {todos.last_page > 1 && (
-                                <div className="flex justify-center gap-2">
-                                    {todos.links.map((link, index) => (
-                                        <Button
-                                            key={index}
-                                            variant={
-                                                link.active
-                                                    ? "default"
-                                                    : "outline"
-                                            }
-                                            disabled={!link.url}
-                                            onClick={() => {
-                                                if (link.url) {
-                                                    router.get(link.url, {
+                                <div className="flex justify-center gap-2 items-center">
+                                    {/* Previous */}
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        disabled={!todos.prev_page_url}
+                                        onClick={() => {
+                                            if (todos.prev_page_url)
+                                                router.get(
+                                                    todos.prev_page_url,
+                                                    {
                                                         preserveState: true,
                                                         preserveScroll: true,
-                                                    });
+                                                    }
+                                                );
+                                        }}
+                                        className="bg-black text-white hover:bg-black/90 disabled:bg-gray-300 disabled:text-gray-500"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <polyline points="15 18 9 12 15 6" />
+                                        </svg>
+                                    </Button>
+
+                                    {/* Page Numbers */}
+                                    {todos.links
+                                        .filter(
+                                            (link) =>
+                                                !link.label.includes(
+                                                    "Previous"
+                                                ) &&
+                                                !link.label.includes("Next")
+                                        )
+                                        .map((link, index) => (
+                                            <Button
+                                                key={index}
+                                                variant={
+                                                    link.active
+                                                        ? "default"
+                                                        : "outline"
                                                 }
-                                            }}
-                                            dangerouslySetInnerHTML={{
-                                                __html: link.label,
-                                            }}
-                                        />
-                                    ))}
+                                                disabled={!link.url}
+                                                onClick={() => {
+                                                    if (link.url)
+                                                        router.get(link.url, {
+                                                            preserveState: true,
+                                                            preserveScroll: true,
+                                                        });
+                                                }}
+                                                className={
+                                                    link.active
+                                                        ? "bg-blue-600 text-white hover:bg-blue-700"
+                                                        : ""
+                                                }
+                                            >
+                                                {link.label}
+                                            </Button>
+                                        ))}
+
+                                    {/* Next */}
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        disabled={!todos.next_page_url}
+                                        onClick={() => {
+                                            if (todos.next_page_url)
+                                                router.get(
+                                                    todos.next_page_url,
+                                                    {
+                                                        preserveState: true,
+                                                        preserveScroll: true,
+                                                    }
+                                                );
+                                        }}
+                                        className="bg-black text-white hover:bg-black/90 disabled:bg-gray-300 disabled:text-gray-500"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <polyline points="9 18 15 12 9 6" />
+                                        </svg>
+                                    </Button>
                                 </div>
                             )}
                         </>
