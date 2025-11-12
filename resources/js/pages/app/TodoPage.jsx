@@ -278,8 +278,8 @@ export default function TodoPage() {
 
                             {/* Pagination */}
                             {todos.last_page > 1 && (
-                                <div className="flex justify-center gap-2 items-center">
-                                    {/* Previous */}
+                                <div className="flex justify-center gap-2 items-center mt-6">
+                                    {/* Tombol Sebelumnya */}
                                     <Button
                                         variant="outline"
                                         size="icon"
@@ -311,7 +311,7 @@ export default function TodoPage() {
                                         </svg>
                                     </Button>
 
-                                    {/* Page Numbers */}
+                                    {/* Nomor Halaman */}
                                     {todos.links
                                         .filter(
                                             (link) =>
@@ -346,7 +346,7 @@ export default function TodoPage() {
                                             </Button>
                                         ))}
 
-                                    {/* Next */}
+                                    {/* Tombol Selanjutnya */}
                                     <Button
                                         variant="outline"
                                         size="icon"
